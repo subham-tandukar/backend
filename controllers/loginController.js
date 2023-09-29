@@ -1,21 +1,21 @@
 const User = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "Thisis@secret";
+const JWT_SECRET = "Thisis@Secret";
 
 // --- login ---
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  const { Email, Password } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ Email });
     if (!user) {
       return res.status(401).json({
         Message: "User doesn't exist",
       });
     }
 
-    const passwordCompare = await bcrypt.compare(password, user.password);
+    const passwordCompare = await bcrypt.compare(Password, user.Password);
     if (!passwordCompare) {
       return res.status(401).json({
         Message: "Password doesn't match",
@@ -25,8 +25,8 @@ exports.login = async (req, res) => {
     const data = {
       user: {
         id: user.id,
-        name: user.name,
-        email: user.email,
+        name: user.Name,
+        email: user.Email,
       },
     };
     const authToken = jwt.sign(data, JWT_SECRET);
@@ -37,16 +37,16 @@ exports.login = async (req, res) => {
         Token: authToken,
         Login: [
           {
-            name: user.name,
-            email: user.email,
-            userID: user._id,
+            Name: user.Name,
+            Email: user.Email,
+            UserID: user._id,
           },
         ],
       });
     } else {
       res.status(401).json({
         StatusCode: 400,
-        Message: "User deactivated",
+        Message: "Please verify your email first",
       });
     }
   } catch (err) {
