@@ -94,6 +94,18 @@ exports.course = async (req, res) => {
         StatusCode: 200,
         Message: "success",
       });
+    } else if (FLAG === "BOOKED") {
+      const update = {
+        $inc: { NoOfSeat: -1 } // Decrement NoOfSeat by 1
+      };
+
+      await category.findByIdAndUpdate(CategoryID, update, {
+        new: true,
+      });
+      res.status(201).json({
+        StatusCode: 200,
+        Message: "success",
+      });
     } else if (FLAG === "SI") {
       const showcourse = await course.findById({ _id: CourseID });
       if (showcourse) {
