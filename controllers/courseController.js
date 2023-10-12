@@ -99,7 +99,7 @@ exports.course = async (req, res) => {
         $inc: { NoOfSeat: -1 } // Decrement NoOfSeat by 1
       };
 
-      await category.findByIdAndUpdate(CategoryID, update, {
+      await category.findByIdAndUpdate(CourseID, update, {
         new: true,
       });
       res.status(201).json({
