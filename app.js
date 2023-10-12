@@ -1,4 +1,5 @@
 require("dotenv").config();
+const axios = require("axios");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -22,6 +23,31 @@ app.use(router);
 
 app.get("/", (req, res) => {
   res.json("server start");
+});
+
+app.post("/api/khaltiPayment", async (req, res) => {
+  const payload = req.body;
+  const khaltiResponse = await axios.post(
+    "https://a.khalti.com/api/v2/epayment/initiate/",
+    payload,
+    {
+      headers: {
+        Authorization: `Key ${process.env.KHALTI_KEY}`,
+      },
+    }
+  );
+  if (khaltiResponse) {
+    res.status(201).json({
+      StatusCode: 200,
+      Message: "success",
+      Values: khaltiResponse?.data,
+    });
+  } else {
+    res.status(401).json({
+      StatusCode: 400,
+      Message: "Something went wrong",
+    });
+  }
 });
 
 const start = async () => {
