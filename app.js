@@ -37,15 +37,14 @@ app.post("/api/khaltiPayment", async (req, res) => {
     }
   );
   if (khaltiResponse) {
-    res.status(201).json({
-      StatusCode: 200,
-      Message: "success",
-      Values: khaltiResponse?.data,
+    res.json({
+      success: true,
+      data: khaltiResponse?.data,
     });
   } else {
-    res.status(401).json({
-      StatusCode: 400,
-      Message: "Something went wrong",
+    res.json({
+      success: false,
+      message: "Something went wrong",
     });
   }
 });
