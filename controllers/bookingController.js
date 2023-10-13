@@ -27,6 +27,7 @@ exports.booking = async (req, res) => {
         PhoneNumber,
         Address,
         Course,
+        IsPaid,
       });
       await bookingData.save();
       res.status(201).json({
