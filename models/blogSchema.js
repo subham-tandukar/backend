@@ -28,6 +28,13 @@ const blogSchema = new mongoose.Schema(
         required: true,
       },
     },
+    Comments: [
+      {
+        Name: String,
+        Email: String,
+        Cmt: String,
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -88,6 +88,23 @@ exports.blog = async (req, res) => {
         StatusCode: 200,
         Message: "success",
       });
+    } else if (FLAG === "UC") {
+      // Assuming req.body.Comment is an array of comments to be added
+      const newComments = req.body.Comments;
+
+      // Find the blog post by ID
+      const blogPost = await blog.findById(BlogID);
+
+      // Add the new comments to the existing comments
+      blogPost.Comments.push(...newComments);
+
+      // Save the updated blog post
+      await blogPost.save();
+
+      res.status(201).json({
+        StatusCode: 200,
+        Message: "success",
+      });
     } else if (FLAG === "SI") {
       const showblog = await blog.findById({ _id: BlogID });
       if (showblog) {
