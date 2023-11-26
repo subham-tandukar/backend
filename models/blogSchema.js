@@ -34,6 +34,7 @@ const blogSchema = new mongoose.Schema(
         Email: String,
         Cmt: String,
       },
+      { timestamps: true },
     ],
   },
   { timestamps: true }
