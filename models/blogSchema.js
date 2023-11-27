@@ -33,8 +33,10 @@ const blogSchema = new mongoose.Schema(
         Name: String,
         Email: String,
         Cmt: String,
-        timestamps: true,
+        createdAt: { type: Date, default: Date.now },
+        updatedAt: { type: Date, default: Date.now },
       },
+      { timestamps: true },
     ],
   },
   { timestamps: true }
