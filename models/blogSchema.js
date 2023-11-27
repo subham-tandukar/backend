@@ -33,8 +33,8 @@ const blogSchema = new mongoose.Schema(
         Name: String,
         Email: String,
         Cmt: String,
+        timestamps: true,
       },
-      { timestamps: true },
     ],
   },
   { timestamps: true }
