@@ -4,8 +4,16 @@ const cloudinary = require("../cloudinary");
 
 // ---- add book ----
 exports.blog = async (req, res) => {
-  const { FLAG, BlogID, Title, Description, Auther, CategoryID, Image } =
-    req.body;
+  const {
+    FLAG,
+    BlogID,
+    Title,
+    Description,
+    Auther,
+    CategoryID,
+    Image,
+    CommentID,
+  } = req.body;
 
   try {
     if (FLAG === "I") {
@@ -97,6 +105,39 @@ exports.blog = async (req, res) => {
 
       // Add the new comments to the existing comments
       blogPost.Comments.push(...newComments);
+
+      // Save the updated blog post
+      await blogPost.save();
+
+      res.status(201).json({
+        StatusCode: 200,
+        Message: "success",
+      });
+    } else if (FLAG === "DC") {
+      // Assuming CommentID is provided in the request body
+      if (!CommentID) {
+        return res.status(422).json({
+          Message: "Please provide the CommentID to delete the comment",
+        });
+      }
+
+      // Find the blog post by ID
+      const blogPost = await blog.findById(BlogID);
+
+      // Find the index of the comment to delete
+      const commentIndex = blogPost.Comments.findIndex(
+        (comment) => comment._id == CommentID
+      ); 
+
+      if (commentIndex === -1) {
+        return res.status(404).json({
+          StatusCode: 404,
+          Message: "Comment not found",
+        });
+      }
+
+      // Remove the comment from the array
+      blogPost.Comments.splice(commentIndex, 1);
 
       // Save the updated blog post
       await blogPost.save();
