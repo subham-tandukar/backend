@@ -127,7 +127,7 @@ exports.blog = async (req, res) => {
       // Find the index of the comment to delete
       const commentIndex = blogPost.Comments.findIndex(
         (comment) => comment._id == CommentID
-      ); 
+      );
 
       if (commentIndex === -1) {
         return res.status(404).json({
